@@ -1,13 +1,13 @@
 from fastapi import FastAPI
+from fastapi import APIRouter
+from currencyRate.api import controller as currency_rate
 
 app = FastAPI()
 
+router = APIRouter(
+    prefix="/api/v1"
+)
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+router.include_router(currency_rate.router)
 
-
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
+app.include_router(router)
